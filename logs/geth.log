@@ -1,0 +1,36 @@
+INFO [09-09|10:46:59.057] Starting Geth on Ethereum mainnet... 
+INFO [09-09|10:46:59.068] Bumping default cache on mainnet         provided=1024 updated=4096
+INFO [09-09|10:46:59.070] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [09-09|10:46:59.071] Set global gas cap                       cap=50,000,000
+INFO [09-09|10:46:59.071] Allocated trie memory caches             clean=614.00MiB dirty=1024.00MiB
+INFO [09-09|10:46:59.071] Allocated cache and file handles         database=C:\Users\camil\@mysticaldragon\all-in-one-POA-L2\data\geth\geth\chaindata cache=2.00GiB handles=8192
+INFO [09-09|10:46:59.096] Opened ancient database                  database=C:\Users\camil\@mysticaldragon\all-in-one-POA-L2\data\geth\geth\chaindata\ancient readonly=false
+INFO [09-09|10:46:59.096] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+INFO [09-09|10:46:59.098] Disk storage enabled for ethash caches   dir=C:\Users\camil\@mysticaldragon\all-in-one-POA-L2\data\geth\geth\ethash count=3
+INFO [09-09|10:46:59.098] Disk storage enabled for ethash DAGs     dir=C:\Users\camil\AppData\Local\Ethash count=2
+INFO [09-09|10:46:59.098] Initialising Ethereum protocol           network=1 dbversion=8
+INFO [09-09|10:46:59.114] Loaded most recent local header          number=0 hash=d4e567..cb8fa3 td=17,179,869,184 age=52y5mo1w
+INFO [09-09|10:46:59.114] Loaded most recent local full block      number=0 hash=d4e567..cb8fa3 td=17,179,869,184 age=52y5mo1w
+INFO [09-09|10:46:59.114] Loaded most recent local fast block      number=0 hash=d4e567..cb8fa3 td=17,179,869,184 age=52y5mo1w
+INFO [09-09|10:46:59.115] Loaded local transaction journal         transactions=0 dropped=0
+INFO [09-09|10:46:59.116] Regenerated local transaction journal    transactions=0 accounts=0
+INFO [09-09|10:46:59.116] Gasprice oracle is ignoring threshold set threshold=2
+INFO [09-09|10:46:59.117] Starting peer-to-peer node               instance=Geth/v1.10.8-stable-26675454/windows-amd64/go1.16.4
+INFO [09-09|10:46:59.134] New local node record                    seq=5 id=106efe3c29ac8b0c ip=127.0.0.1 udp=30301 tcp=30301
+INFO [09-09|10:46:59.134] Started P2P networking                   self=enode://bbc63ce5b78d00be89de4a301aa63c8632293cb1625aa1a5efbdee496449d8250e13ff1b7fbea6418d9ab251dd9b9a21b992db03313f8df4759fb2ff61587b34@127.0.0.1:30301
+INFO [09-09|10:46:59.135] IPC endpoint opened                      url=\\.\pipe\geth.ipc
+INFO [09-09|10:47:03.340] Got interrupt, shutting down... 
+INFO [09-09|10:47:03.340] IPC endpoint closed                      url=\\.\pipe\geth.ipc
+INFO [09-09|10:47:03.340] Ethereum protocol stopped 
+INFO [09-09|10:47:03.340] Transaction pool stopped 
+INFO [09-09|10:47:03.340] Writing snapshot state to disk           root=d7f897..0f0544
+INFO [09-09|10:47:03.340] Persisted trie from memory database      nodes=0 size=0.00B time=0s gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [09-09|10:47:03.340] Writing clean trie cache to disk         path=C:\Users\camil\@mysticaldragon\all-in-one-POA-L2\data\geth\geth\triecache threads=12
+INFO [09-09|10:47:03.348] Persisted the clean trie cache           path=C:\Users\camil\@mysticaldragon\all-in-one-POA-L2\data\geth\geth\triecache elapsed=8.001ms
+INFO [09-09|10:47:03.348] Blockchain stopped 
+WARN [09-09|10:47:03.528] Already shutting down, interrupt more to panic. times=9
+WARN [09-09|10:47:03.711] Already shutting down, interrupt more to panic. times=8
+WARN [09-09|10:47:04.229] Already shutting down, interrupt more to panic. times=7
+WARN [09-09|10:47:04.413] Already shutting down, interrupt more to panic. times=6
+WARN [09-09|10:47:04.601] Already shutting down, interrupt more to panic. times=5
+WARN [09-09|10:47:04.812] Already shutting down, interrupt more to panic. times=4
