@@ -6,9 +6,8 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        "node_modules/": true,
         "yarn.lock": true,
-        "package.json": true,
+        "yarn-error.log": true,
         ".gitignore": true
     }
 }

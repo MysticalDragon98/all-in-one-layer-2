@@ -1,5 +1,5 @@
-const { PASSWORD, NETWORK_ID, RPC_HOST, RPC_PORT } = require('../scripts/load-env');
-const { Storage } = require('../scripts/load-storage');
+const { PASSWORD, NETWORK_ID, RPC_HOST, RPC_PORT } = require('../../scripts/load-env');
+const { Storage } = require('../../scripts/load-storage');
 const { ethAddress, ipc } = JSON.parse(Storage.readSync("json/env.json"));
 const Web3 = require('web3');
 
@@ -22,14 +22,13 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
-      //  evmVersion: "byzantium"
-      // }
+      version: "0.7.0",    // Fetch exact version from solc-bin (default: truffle's version)
+      settings: {          // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: false,
+          runs: 200
+        }
+      }
     }
   }
 };

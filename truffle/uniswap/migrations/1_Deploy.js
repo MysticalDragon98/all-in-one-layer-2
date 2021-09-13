@@ -1,5 +1,5 @@
-const { log, cold, highlight } = require("@mysticaldragon/logger");
-const { initStorage, json } = require('../../scripts/load-storage');
+const { initStorage, json } = require('../../../scripts/load-storage');
+const log = console.log.bind(console);
 let Storage;
 
 let _deploy;
@@ -8,25 +8,28 @@ module.exports = async function (deployer, network, accounts) {
   await initStorage();
   Storage = json('env');
 
-  log("MIGRATE", "Available accounts:", Storage.ethAddress);
-
   if (!Storage.contracts) {
     Storage.contracts = {};
   }
 
   await deploy("UniswapV2Factory", Storage.ethAddress);
+  log("Done.");
 };
 
 async function deploy (name, ...args) {
+  let [ requireArtifact, contractName ] = name.split(" as ");
+  
+  if (!contractName) contractName = requireArtifact;
+
   if (Storage.contracts[name]) {
-    log(name, "Already deployed");
+    log("Already deployed:", contractName)
     return;
   }
-  log(name, "Deploying...");
-  
-  const result = await _deploy(artifacts.require(name), ...args);
 
-  log(name, "Deployed at", highlight(result.address));
+  log("Deploying:", contractName);
+  
+  const result = await _deploy(artifacts.require(requireArtifact), ...args);
+  log("Deployed:" + contractName, "Address:", result.address);
 
   Storage.contracts = { ...Storage.contracts, [name]: result.address };
 

@@ -6,21 +6,29 @@
   "author": "MysticalDragon98 <mysticaldragon1998@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@ensdomains/ens": "^0.6.2",
     "@mysticaldragon/logger": "^1.0.5",
     "@mysticaldragon/storage": "^1.0.5",
     "@mysticaldragon/utils": "^1.0.9",
     "@truffle/hdwallet-provider": "^1.5.0",
     "dotenv": "^10.0.0",
+    "eth-ens-namehash": "^2.0.8",
     "ganache-cli": "^6.12.2",
     "tree-kill": "^1.2.2",
-    "web3": "^1.5.2"
+    "truffle": "^5.4.10",
+    "web3": "^1.5.2",
+    "web3-utils": "^1.5.2"
   },
   "scripts": {
+    "init-all": "yarn init-geth && yarn deploy",
     "start-ganache": "node ./scripts/start-ganache",
     "keygen": "node ./scripts/generate-keys.js",
     "send-eth": "node ./scripts/send-eth",
     "init-geth": "node ./scripts/init-geth.js",
     "run-geth": "node ./scripts/run-geth.js",
-    "ensure-contracts": "node ./scripts/ensure-contracts.js"
+    "start": "yarn run-geth",
+    "deploy-uniswap": "cd truffle/uniswap && truffle migrate --network private --quiet",
+    "deploy-ens": "cd truffle/ens && truffle migrate --network private --quiet",
+    "deploy": "node ./scripts/ensure-contracts.js"
   }
 }

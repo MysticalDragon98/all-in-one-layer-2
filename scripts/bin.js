@@ -3,9 +3,11 @@ const { exec } = require('child_process');
 const kill = require('tree-kill');
 const EventEmitter = require('events');
 const { resolve } = require('path');
+const { GETH_BIN } = require('./load-env');
 
-const GETH_PATH = resolve(__dirname, "../bin/geth/windows/geth.exe");
-const PUPPETH_PATH = resolve(__dirname, "../bin/geth/windows/puppeth.exe");
+const GETH_PATH = resolve(GETH_BIN, "./geth.exe");
+const PUPPETH_PATH = resolve(GETH_BIN, "./puppeth.exe");
+const TRUFFLE_PATH = resolve(__dirname, "../node_modules/.bin/truffle");
 
 function geth (args, streamName = "stderr") {
     return createCommandLineFromCommand(GETH_PATH + " " + args.join(" "), streamName);
@@ -15,9 +17,13 @@ function puppeth (args, streamName = "stdout") {
     return createCommandLineFromCommand(PUPPETH_PATH + " " + args.join(" "), streamName);
 }
 
-function createCommandLineFromCommand (command, streamName) {
+function truffle (cwd, args, streamName="stdout") {
+    return createCommandLineFromCommand(TRUFFLE_PATH + " " + args.join(" "), "stdout", cwd)
+}
+
+function createCommandLineFromCommand (command, streamName, cwd) {
     const emitter = new EventEmitter();
-    const { stdout, stdin, stderr, pid } = exec(command);
+    const { stdout, stdin, stderr, pid } = exec(command, cwd? { cwd } : undefined);
     log("COMMAND", command);
     const stream = { stdout, stderr }[streamName];
 
@@ -47,3 +53,4 @@ function createCommandLineFromCommand (command, streamName) {
 
 exports.geth = geth;
 exports.puppeth = puppeth;
+exports.truffle = truffle;
