@@ -8,11 +8,19 @@ const path = exports.path = dataStorage.path.bind(dataStorage);
 const mkdir = exports.mkdir = dataStorage.mkdir.bind(dataStorage);
 const json = exports.json = (name) => dataStorage.json[name];
 
+let Flags;
 exports.initStorage = async (dirs = []) => {
     log("STORAGE", "Initializing storage...");
     await dataStorage.init();
 
     for (const dir of dirs) this.mkdir(dir);
+    Flags = json('flags');
+}
+
+exports.flag = (name, enable) => {
+    if (enable === undefined) return Flags[name];
+    
+    return Flags[name] = enable? 1 : 0;
 }
 
 exports.Storage = dataStorage;

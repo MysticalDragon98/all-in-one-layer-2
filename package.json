@@ -6,7 +6,11 @@
   "author": "MysticalDragon98 <mysticaldragon1998@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@ensdomains/buffer": "^0.0.13",
+    "@ensdomains/dnssec-oracle": "^0.2.0",
     "@ensdomains/ens": "^0.6.2",
+    "@ensdomains/ensjs": "^2.0.1",
+    "@ensdomains/resolver": "^0.3.1",
     "@mysticaldragon/logger": "^1.0.5",
     "@mysticaldragon/storage": "^1.0.5",
     "@mysticaldragon/utils": "^1.0.9",
@@ -29,6 +33,7 @@
     "start": "yarn run-geth",
     "deploy-uniswap": "cd truffle/uniswap && truffle migrate --network private --quiet",
     "deploy-ens": "cd truffle/ens && truffle migrate --network private --quiet",
-    "deploy": "node ./scripts/ensure-contracts.js"
+    "deploy": "node ./scripts/deploy.js",
+    "test": "node ./tests/index.js"
   }
 }

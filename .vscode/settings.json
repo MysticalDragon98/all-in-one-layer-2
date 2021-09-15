@@ -8,6 +8,7 @@
         "**/Thumbs.db": true,
         "yarn.lock": true,
         "yarn-error.log": true,
-        ".gitignore": true
+        ".gitignore": true,
+        "node_modules": true
     }
 }
