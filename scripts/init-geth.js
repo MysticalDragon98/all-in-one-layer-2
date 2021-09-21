@@ -94,7 +94,7 @@ async function main () {
                 puppethProcess.writeln(NETWORK_ID);
             else if (getSubstringProperty(line, "Configured new genesis block")) {
                 setTimeout(() => {
-                    const filePath = PUPPETH_GENESIS_PATH || resolve(__dirname, "../.puppeth/" + NETWORK_NAME);
+                    const filePath = PUPPETH_GENESIS_PATH? resolve(PUPPETH_GENESIS_PATH, NETWORK_NAME) : resolve(__dirname, "../.puppeth/" + NETWORK_NAME);
                     const genesis = JSON.parse(fs.readFileSync(filePath));
     
                     log("PUPPETH", "Genesis generated!");
