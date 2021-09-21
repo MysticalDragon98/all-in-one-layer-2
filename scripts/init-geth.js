@@ -131,7 +131,7 @@ async function main () {
 }
 
 function cleanPuppeth () {
-    const puppethDir = resolve(__dirname, "../.puppeth");
+    const puppethDir = PUPPETH_GENESIS_PATH || resolve(__dirname, "../.puppeth");
     if (!fs.existsSync(puppethDir)) return;
 
     log("PUPPETH", "Cleaning puppeth temp files...")
