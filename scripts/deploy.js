@@ -4,10 +4,10 @@ const { resolve } = require('path');
 const { truffle } = require('./bin');
 const { getSubstringProperty, wait, ZERO_ADDRESS } = require("./utils");
 const { readFileSync } = require('fs');
-const { initWeb3, contract, setTLDOwner, setTLDAddress, setSubdomainAddress, setTLDResolver } = require('./load-web3');
+const { initWeb3, setENSOwner, setENSResolver, setENSAddress, getENSAddress } = require('./load-web3');
 const { hash } = require('eth-ens-namehash');
 const { sha3 } = require('web3-utils');
-const { PASSWORD, ENS_TLD } = require('./load-env');
+const { PASSWORD, ENS_TLD, ADMIN_ADDRESS } = require('./load-env');
 
 let Storage, web3;
 async function main () {
@@ -85,26 +85,53 @@ async function configENS () {
     log("ENS", "Setting up ENS...");
 
     {//? Setup resolver domains
-        await setTLDOwner   ("resolver" , Storage.ethAddress);
-        await setTLDResolver("resolver" , Storage.contracts.PublicResolver);
-        await setTLDAddress ("resolver" , Storage.contracts.PublicResolver);
+        await setENSOwner("resolver" , Storage.ethAddress);
+        await setENSResolver("resolver" , Storage.contracts.PublicResolver);
+        await setENSAddress("resolver" , Storage.contracts.PublicResolver);
     }
 
     {//? Setup default domains
-        await setTLDOwner(ENS_TLD, Storage.ethAddress);
-        await setSubdomainAddress(`uniswap.${ENS_TLD}`, Storage.contracts.UniswapV2Factory)
-        await setSubdomainAddress(`ens-registry.${ENS_TLD}`, Storage.contracts.ENSRegistry)
-        await setSubdomainAddress(`ens-resolver.${ENS_TLD}`, Storage.contracts.PublicResolver)
-        await setSubdomainAddress(`ens-registrar.${ENS_TLD}`, Storage.contracts.FIFSRegistrar)
-        await setSubdomainAddress(`ens-reverse-registrar.${ENS_TLD}`, Storage.contracts.ReverseRegistrar)
-        await setSubdomainAddress(`system.${ENS_TLD}`, Storage.ethAddress)
+        await setENSOwner(ENS_TLD, Storage.ethAddress);
+        
+        await setENSOwner(`uniswap.${ENS_TLD}`, Storage.ethAddress);
+        await setENSOwner(`ens-registry.${ENS_TLD}`, Storage.ethAddress);
+        await setENSOwner(`ens-resolver.${ENS_TLD}`, Storage.ethAddress);
+        await setENSOwner(`ens-registrar.${ENS_TLD}`, Storage.ethAddress);
+        await setENSOwner(`ens-reverse-registrar.${ENS_TLD}`, Storage.ethAddress);
+        await setENSOwner(`system.${ENS_TLD}`, Storage.ethAddress);
+        await setENSOwner(`admin.${ENS_TLD}`, Storage.ethAddress);
+        
+        await setENSResolver(`uniswap.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        await setENSResolver(`ens-registry.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        await setENSResolver(`ens-resolver.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        await setENSResolver(`ens-registrar.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        await setENSResolver(`ens-reverse-registrar.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        await setENSResolver(`system.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        await setENSResolver(`admin.${ENS_TLD}`, Storage.contracts.PublicResolver);
+        
+        
+        await setENSAddress(`uniswap.${ENS_TLD}`, Storage.contracts.UniswapV2Factory)
+        await setENSAddress(`ens-registry.${ENS_TLD}`, Storage.contracts.ENSRegistry)
+        await setENSAddress(`ens-resolver.${ENS_TLD}`, Storage.contracts.PublicResolver)
+        await setENSAddress(`ens-registrar.${ENS_TLD}`, Storage.contracts.FIFSRegistrar)
+        await setENSAddress(`ens-reverse-registrar.${ENS_TLD}`, Storage.contracts.ReverseRegistrar)
+        await setENSAddress(`system.${ENS_TLD}`, Storage.ethAddress)
+        
+        await setENSAddress(`admin.${ENS_TLD}`, ADMIN_ADDRESS);
+        await setENSOwner(`admin.${ENS_TLD}`, ADMIN_ADDRESS);
     }
 
     {//? Setup reverse resolver domains
-        await setTLDOwner("reverse", Storage.ethAddress);
-        await setSubdomainAddress("addr.reverse", Storage.contracts.ReverseRegistrar);
+        await setENSOwner("reverse", Storage.ethAddress);
+        await setENSAddress("addr.reverse", Storage.contracts.ReverseRegistrar);
     }
+    
+    await Promise.all(["uniswap", "ens-registry", "ens-resolver", "ens-registrar", "ens-reverse-registrar", "system", "admin"].map(async name => {
+        const domain = name + "." + ENS_TLD;
+        const address = await getENSAddress(domain);
 
+        log("ENS", `✓ Domain ${cold(domain)} = ${highlight(address)}.`);
+    }));
     log("ENS", "✓ ENS Configured successfully.");
     flag("ENS_Configured", 1);
 }

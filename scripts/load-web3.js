@@ -43,13 +43,13 @@ function getContractRoute (name) {
     throw new Error("Contract not found:", name);
 }
 
-function contract (name) {
+function contract (name, addr) {
     const abi = CachedABIS[name] || JSON.parse(readFileSync(resolve(__dirname, "../truffle/" + getContractRoute(name) + "/build/contracts/" + name + ".json"))).abi;
 
     if (!Storage.contracts[name]) throw new Error("Contract is not deployed, run yarn deploy in order to do it.");
     if (!CachedABIS[name]) CachedABIS[name] = abi;
 
-    return new _web3.eth.Contract(abi, Storage.contracts[name], {
+    return new _web3.eth.Contract(abi, addr || Storage.contracts[name], {
         from: Storage.ethAddress,
         gasPrice: 2
     });
@@ -64,57 +64,68 @@ async function ens () {
     });
 }
 
+async function resolveAddr (addr) {
+    if (/^0x[0-9+]$/.test(addr))
+        return addr;
+    
+    return await getENSAddress(addr);
+}
+
+async function setENSOwner (url, addr) {
+    const domain = url.includes(".")? url.substring(url.indexOf(".") + 1) : ZERO_ADDRESS;
+    const subdomain = url.includes(".")? url.substring(0, url.indexOf(".")) : url;
+    const domainHash = domain === ZERO_ADDRESS? domain : hash(domain);
+    const subdomainHash = sha3(subdomain);
+
+    log("ENS-DEBUG", "setOwner(" + cold(url) + ",", highlight(addr) + ")");
+    //log("ENS-DEBUG", `ENSRegistry.setSubnodeOwner('${domainHash}', '${subdomainHash}', '${addr}')`);
+
+    return await contract('ENSRegistry').methods.setSubnodeOwner(domainHash, subdomainHash, addr).send();
+}
+
 async function getENSOwner (url) {
-    return await _ens.name(url).getOwner();
+    log("ENS-DEBUG", "getOwner(" + cold(url) +")");
+    //log("ENS-DEBUG", `ENSRegistry.owner('${hash(url)}'`);
+    
+    return await contract('ENSRegistry').methods.owner(hash(url)).call();
+}
+
+async function setENSResolver (url, addr) {
+    log("ENS-DEBUG", "setResolver(" + cold(url) + ",", highlight(addr) + ")");
+    const tx = await _ens.name(url).setResolver(addr);
+    return tx.wait();
+}
+
+async function getENSResolver (url) {
+    log("ENS-DEBUG", "getResolver(" + cold(url) + ")");
+    return await _ens.name(url).getResolver();
+}
+
+async function setENSAddress (url, addr) {
+    log("ENS-DEBUG", "setAddress(" + cold(url) + ",", highlight(addr) + ")");
+    
+    const resolver = await getENSResolver(url);
+    const resolverContract = contract("PublicResolver", resolver);
+
+    return await resolverContract.methods.setAddr(hash(url), addr).send();
 }
 
 async function getENSAddress (url) {
-    return await _ens.name(url).getAddress();
+    const resolver = await getENSResolver(url);
+    const resolverContract = contract("PublicResolver", resolver);
+    log("ENS-DEBUG", highlight(`PublicResolver<${resolver}>`), "getAddress(" + cold(url) + ")");
+
+    return await resolverContract.methods.addr(hash(url)).call();
 }
 
-async function setTLDOwner (url, owner) {
-    const ENSRegistry = contract("ENSRegistry");
-    
-    log("ENS", "Setting ", highlight(url), "TLD ownership to", cold(owner));
-    return await ENSRegistry.methods.setSubnodeOwner(ZERO_ADDRESS, sha3(url), owner).send();
-}
-
-async function setTLDResolver (url, resolver) {
-    const ENSRegistry = contract("ENSRegistry");
-    
-    log("ENS", "Setting ", highlight(url), "TLD resolver to", cold(resolver));
-    return await ENSRegistry.methods.setResolver(hash(url), resolver).send();
-}
-
-async function setTLDAddress (url, addr) {
-    const PublicResolver = contract("PublicResolver");
-    
-    log("ENS", "Setting ", highlight(url), "TLD address to", cold(addr));
-    return await PublicResolver.methods.setAddr(hash(url), addr).send();
-}
-
-async function setSubdomainAddress (url, addr) {
-    const [ subdomain, domain ] = url.split(".");
-    const PublicResolver = contract("PublicResolver");
-    
-    log("ENS", "Setting ", highlight(url), " subdomain to ", cold(addr));
-    return await PublicResolver.methods.setAddr(hash(domain), hash(subdomain), addr).send();
-}
-
-async function setSubdomainOwner (url, addr) {
-    const [ subdomain, domain ] = url.split(".");
-    const PublicResolver = contract("PublicResolver");
-    
-    return await PublicResolver.methods.setAddr(hash(domain), hash(subdomain), addr).send();
-}
-
-exports.initWeb3 = initWeb3;
-exports.contract = contract;
-
-exports.getENSAddress = getENSAddress;
-exports.getENSOwner = getENSOwner;
-exports.setTLDOwner = setTLDOwner;
-exports.setTLDResolver = setTLDResolver;
-exports.setTLDAddress = setTLDAddress;
-
-exports.setSubdomainAddress = setSubdomainAddress;
+module.exports = {
+    initWeb3,
+    contract,
+    resolveAddr,
+    setENSAddress,
+    getENSAddress,
+    setENSResolver,
+    getENSResolver,
+    setENSOwner,
+    getENSOwner
+};
