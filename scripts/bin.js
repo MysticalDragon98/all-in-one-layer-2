@@ -5,8 +5,8 @@ const EventEmitter = require('events');
 const { resolve } = require('path');
 const { GETH_BIN } = require('./load-env');
 
-const GETH_PATH = resolve(GETH_BIN, "./geth.exe");
-const PUPPETH_PATH = resolve(GETH_BIN, "./puppeth.exe");
+const GETH_PATH = resolve(GETH_BIN, "./geth");
+const PUPPETH_PATH = resolve(GETH_BIN, "./puppeth");
 const TRUFFLE_PATH = resolve(__dirname, "../node_modules/.bin/truffle");
 
 function geth (args, streamName = "stderr") {
