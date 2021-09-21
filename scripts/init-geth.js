@@ -1,5 +1,5 @@
 const { log, danger, highlight, configureLogs, cold } = require('@mysticaldragon/logger');
-const { PASSWORD, NETWORK_NAME, BLOCK_INTERVAL, NETWORK_ID } = require('./load-env');
+const { PASSWORD, NETWORK_NAME, BLOCK_INTERVAL, NETWORK_ID, PUPPETH_GENESIS_PATH } = require('./load-env');
 const { initStorage, path, json } = require('./load-storage');
 const { getSubstringProperty } = require('./utils');
 const { geth, puppeth } = require('./bin');
@@ -94,7 +94,7 @@ async function main () {
                 puppethProcess.writeln(NETWORK_ID);
             else if (getSubstringProperty(line, "Configured new genesis block")) {
                 setTimeout(() => {
-                    const filePath = resolve(__dirname, "../.puppeth/" + NETWORK_NAME);
+                    const filePath = PUPPETH_GENESIS_PATH || resolve(__dirname, "../.puppeth/" + NETWORK_NAME);
                     const genesis = JSON.parse(fs.readFileSync(filePath));
     
                     log("PUPPETH", "Genesis generated!");
