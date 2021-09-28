@@ -27,6 +27,7 @@ async function main () {
             "--networkid", NETWORK_ID,
             "--rpcapi", "eth,net,web3,personal,miner",
             "--allow-insecure-unlock",
+            "--rpcvhosts=*",
             "console"
         ]);
     }
