@@ -66,7 +66,7 @@ async function main () {
     {//? Attach to process
         var gethConsole = geth(["attach", Storage.ipc], "stdout");
 
-        gethConsole.writeln(`personal.unlockAccount("${Storage.ethAddress}", "${PASSWORD}")`)
+        gethConsole.writeln(`personal.unlockAccount("${Storage.ethAddress}", "${PASSWORD}", 0)`)
         gethConsole.writeln("miner.start()");
         
         log("MINER", "Miner started.");
