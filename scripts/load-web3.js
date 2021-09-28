@@ -24,6 +24,7 @@ async function initWeb3() {
     Storage = json('env');
     const ipc = Storage.ipc;
     
+    log("WEB3", "Connecting to:", highlight(ipc));
     const web3 = new Web3(new Web3.providers.IpcProvider(ipc, require('net')));
     await web3.eth.personal.unlockAccount(Storage.ethAddress, PASSWORD);
 
