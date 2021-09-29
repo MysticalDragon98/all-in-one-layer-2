@@ -10,7 +10,7 @@ const { PORT, RPC_PORT, RPC_HOST, RPC_CORS, MAX_PEERS, NETWORK_ID, PASSWORD } = 
 async function main () {
     {//? Initialize storage
         log("MAIN", "Initializing storage...");
-        await initStorage(["geth", "geth/datadir"]);
+        await initStorage(["geth", "geth/datadir", "logs"]);
         var Storage = json("env");
     }
 

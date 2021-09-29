@@ -8,7 +8,7 @@ const fs = require("fs");
 
 async function main () {
     {//? Initialize storage
-        await initStorage(["geth", "geth/datadir", "geth/puppeth"]);
+        await initStorage(["geth", "geth/datadir", "geth/puppeth", "logs"]);
 
         var Storage = json('env');
     }
