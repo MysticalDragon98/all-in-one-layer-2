@@ -34,10 +34,12 @@
     "create-tld": "node ./scripts/create-tld",
     "init-geth": "node ./scripts/init-geth.js",
     "run-geth": "node ./scripts/run-geth.js",
-    "start": "yarn run-geth",
+    "start": "sh ./scripts/sh/service.sh start",
     "deploy-uniswap": "cd truffle/uniswap && truffle migrate --network private --quiet",
     "deploy-ens": "cd truffle/ens && truffle migrate --network private --quiet",
     "deploy": "node ./scripts/deploy.js",
-    "test": "node ./tests/index.js"
+    "test": "node ./tests/index.js",
+    "stop": "sh ./scripts/sh/service.sh stop",
+    "restart": "yarn stop && yarn start"
   }
 }
