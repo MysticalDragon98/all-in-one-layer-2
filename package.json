@@ -40,6 +40,7 @@
     "deploy": "node ./scripts/deploy.js",
     "test": "node ./tests/index.js",
     "stop": "sh ./scripts/sh/service.sh stop",
-    "restart": "yarn stop && yarn start"
+    "restart": "yarn stop && yarn start",
+    "logs": "tail -f ./data/logs/service.log"
   }
 }
