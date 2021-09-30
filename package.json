@@ -34,7 +34,7 @@
     "create-tld": "node ./scripts/create-tld",
     "init-geth": "node ./scripts/init-geth.js",
     "run-geth": "node ./scripts/run-geth.js",
-    "debug": "node ./scripts/sh/service-debug.sh start",
+    "debug": "sh ./scripts/sh/service-debug.sh start",
     "start": "sh ./scripts/sh/service.sh start",
     "deploy-uniswap": "cd truffle/uniswap && truffle migrate --network private --quiet",
     "deploy-ens": "cd truffle/ens && truffle migrate --network private --quiet",
