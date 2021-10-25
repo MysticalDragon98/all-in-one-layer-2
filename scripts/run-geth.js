@@ -19,15 +19,15 @@ async function main () {
         var gethProcess = geth([
             "--datadir", path("geth/datadir"),
             "--port", PORT,
-            "--rpc",
-            "--rpccorsdomain", RPC_CORS,
-            "--rpcaddr", RPC_HOST,
-            "--rpcport", RPC_PORT,
+            "--http",
+            "--http.corsdomain", RPC_CORS,
+            "--http.addr", RPC_HOST,
+            "--http.port", RPC_PORT,
             "--maxpeers", MAX_PEERS,
             "--networkid", NETWORK_ID,
-            "--rpcapi", "eth,net,web3,personal,miner",
+            "--http.api", "eth,net,web3,personal,miner",
             "--allow-insecure-unlock",
-            "--rpcvhosts=*",
+            "--http.vhosts=*",
             "console"
         ]);
     }
