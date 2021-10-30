@@ -18,6 +18,7 @@ async function main () {
     if (!Storage.contracts) Storage.contracts = {};
     
     await ensureContract("uniswap", "UniswapV2Factory", [Storage.ethAddress]);
+    await ensureContract("uniswap-router", "UniswapV2Router02", [Storage.contracts.UniswapV2Factory, ZERO_ADDRESS]);
     await ensureContract("ens"    , "ENSRegistry", []);
     await ensureContract("ens"    , "PublicResolver", [Storage.contracts.ENSRegistry]);
     await ensureContract("ens"    , "FIFSRegistrar", [Storage.contracts.ENSRegistry, hash(ENS_TLD)]);
